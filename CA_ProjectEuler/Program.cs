@@ -11,7 +11,7 @@ namespace CA_ProjectEuler
         static void Main(string[] args)
         {
             var Rta = Problema21();
-            
+
             Console.WriteLine(Rta);
 
             Console.ReadLine();
@@ -29,7 +29,6 @@ namespace CA_ProjectEuler
         {
             int Suma = 0;
             int Max = 1000;
-            int[] Multipos = new int[] { 3, 5 };
 
             for (int i = 0; i < Max; i++)
             {
@@ -50,44 +49,15 @@ namespace CA_ProjectEuler
          * 
          * By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
          */
-
         static int Problema2()
         {
-            List<int> FiboFinal = new List<int>();
+            List<int> listUnder4M = ListNrosFibonacciHastaResultadoMax(4000000);
 
-            FiboFinal = Fibonacci_x_ResultadoMax(4000000);
-            // FiboFinal = Fibo_Cantidad(10);
-
-
-            int Ultimos2Terminos = SumaUltimos2TerminosPares(FiboFinal);
-
-            return Ultimos2Terminos;
-
-        }
-
-
-        static int SumaUltimos2TerminosPares(List<int> FiboFinal)
-        {
-            List<int> FiboFinalPares = FiboFinal.Where(p => p % 2 == 0).ToList<int>();
-
-            //return FiboFinalPares.ElementAt(FiboFinalPares.Count - 1) + FiboFinalPares.ElementAt(FiboFinalPares.Count - 2);
-            return FiboFinalPares.Sum();
+            return listUnder4M.Where(p => p % 2 == 0).Sum();
         }
 
         static long Fibonacci(int Pasos)
         {
-            //int a = 1;
-            //int b = 2;
-
-            //for (int i = 0; i < Pasos; i++)
-            //{
-            //    int temp = a;
-            //    a = b;
-            //    b = temp + b;
-            //}
-
-            //return a;
-
             if (Pasos <= 1)
             {
                 return 1;
@@ -97,22 +67,17 @@ namespace CA_ProjectEuler
                 int n = Pasos;
                 decimal Sqrt5 = (decimal)Math.Sqrt(5.0);
 
-                decimal NroAureo = ((1 + Sqrt5) / 2);
-
-                decimal a_ = (Exp(NroAureo, n) - (Exp(1 - NroAureo, n))) / Sqrt5;
-
-                // return ((BigInteger.Parse(((long)a_).ToString())));
+                decimal a_ = (Exp((1 + Sqrt5) / 2, n) - Exp((1 - Sqrt5) / 2, n)) / Sqrt5;
 
                 return (long)(a_);
             }
-
         }
 
-        static List<Decimal> Fibonacci_x_Cantidad(int CantidadPasos)
+        static List<decimal> ListNrosFibonacci(int pasos)
         {
-            List<Decimal> retFibo = new List<Decimal>();
+            List<decimal> retFibo = new List<decimal>();
 
-            for (int i = 0; i < CantidadPasos; i++)
+            for (int i = 0; i < pasos; i++)
             {
                 retFibo.Add(Fibonacci(i));
             }
@@ -120,13 +85,13 @@ namespace CA_ProjectEuler
             return retFibo;
         }
 
-        static List<int> Fibonacci_x_ResultadoMax(int ResultadoMax)
+        static List<int> ListNrosFibonacciHastaResultadoMax(int ResultadoMax)
         {
             List<int> retFibo = new List<int>();
 
             for (int i = 0; true; i++)
             {
-                int fTMP = int.Parse(Fibonacci(i).ToString());
+                int fTMP = Convert.ToInt32(Fibonacci(i));
 
                 if (fTMP < ResultadoMax)
                 {
@@ -136,7 +101,6 @@ namespace CA_ProjectEuler
                 {
                     break;
                 }
-
             }
 
             return retFibo;
@@ -156,9 +120,7 @@ namespace CA_ProjectEuler
         {
             long NuemroCalculo = 600851475143;
 
-            List<long> FactoresNumPrimos = FactoresPrimos(NuemroCalculo).Where(p => EsPrimo(p)).ToList<long>();
-
-            return FactoresNumPrimos.Last();
+            return FactoresPrimos(NuemroCalculo).Where(p => EsPrimo(p)).Last();
 
         }
 
@@ -179,38 +141,27 @@ namespace CA_ProjectEuler
             return FactoresN;
         }
 
-        static List<long> FactoresPrimos(long Numero, bool IncluirNumero = true)
+        static List<long> FactoresPrimos(long numero)
         {
             List<long> FactoresN = new List<long>();
 
-            FactoresN.Add(2);
-
-
-            long Max = IncluirNumero ? Numero : Numero - 1;
-
-            for (long i = 3; i <= Max; i++)
+            for (long i = 3; i <= numero; i += 2)
             {
-                if (Numero % i == 0)
+                if (numero % i == 0)
                 {
                     if (EsPrimo(i))
                     {
                         FactoresN.Add(i);
                     }
-
                 }
-
-                i++;
             }
 
             return FactoresN;
         }
 
-        static Boolean EsPrimo(long Numero)
-        {
-            return EsPrimo((BigInteger)Numero);
-        }
+        static bool EsPrimo(long Numero) => EsPrimo((BigInteger)Numero);
 
-        static Boolean EsPrimo(BigInteger Numero)
+        static bool EsPrimo(BigInteger Numero)
         {
             if (Numero == 1)
             {
@@ -224,42 +175,14 @@ namespace CA_ProjectEuler
             {
                 for (BigInteger i = 2; i < Numero; i++)
                 {
-                    if (Numero % i == 0)
-                    {
-                        return false;
-                    }
-
+                    if (Numero % i == 0) return false;
                 }
             }
 
             return true;
         }
 
-
-
-        static Boolean EsPrimo(int Numero)
-        {
-            if (Numero == 1)
-            {
-                return false;
-            }
-            else if (Numero == 2)
-            {
-                return true;
-            }
-            else
-            {
-                for (long i = 2; i < Numero; i++)
-                {
-                    if (Numero % i == 0)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
+        static bool EsPrimo(int Numero) => EsPrimo((BigInteger)Numero);
 
         #endregion
 
@@ -297,7 +220,7 @@ namespace CA_ProjectEuler
             return PalActual;
         }
 
-        static Boolean EsPalindromo(int Numero)
+        static bool EsPalindromo(int Numero)
         {
             string S_Numero = Numero.ToString();
             int CantidadInicio = S_Numero.Length % 2 == 0 ? S_Numero.Length / 2 : (S_Numero.Length - 1) / 2;
