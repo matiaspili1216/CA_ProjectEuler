@@ -1,26 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace CA_ProjectEuler
 {
     public static class Extra
     {
-        public static string RemoveChars(this string value, params char[] charsRemove)
-        {
-            foreach (var charRemove in charsRemove)
-            {
-                value.Replace(charRemove.ToString(), "");
-            }
-
-            return value;
-        }
-
-        public static char ToLower(this char value) => char.ToLower(value, new System.Globalization.CultureInfo("es-AR", false));
-
-        public static char ToUpper(this char value) => char.ToUpper(value, new System.Globalization.CultureInfo("es-AR", false));
-
         public static List<int> Sublist(this List<int> Lista, int startIndex, int length)
         {
             List<int> resultado = new List<int>();
@@ -33,16 +20,16 @@ namespace CA_ProjectEuler
             return resultado;
         }
 
-        public static List<string> RemoveInValues(this List<string> Lista, params char[] charRemove)
+        public static string RemoveChars(this string value, params char[] items) => new string(value.Where(c => !items.Contains(c)).ToArray());
+
+        public static long GetFibonacciValue_ByStep(int step)
         {
-            List<string> ListResult = new List<string>();
-
-            for (int i = 0; i < Lista.Count; i++)
+            if (step <= 1) { return 1; }
+            else
             {
-                ListResult.Add(Lista.ElementAt(i).RemoveChars(charRemove));
+                var Sqrt5 = Math.Sqrt(5.0);
+                return (long)((Math.Pow(1 + (Sqrt5 / 2), step) - Math.Pow(1 - (Sqrt5 / 2), step)) / Sqrt5);
             }
-
-            return ListResult;
         }
     }
 }

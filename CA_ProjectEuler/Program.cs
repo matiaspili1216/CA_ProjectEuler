@@ -11,7 +11,7 @@ namespace CA_ProjectEuler
             int problem = GetNumberProblem();
 
             Type thisType = typeof(Problems);
-            MethodInfo theMethod = thisType.GetMethod($"Problema{problem}");
+            MethodInfo theMethod = thisType.GetMethod($"Problem{problem}");
             var Rta = theMethod.Invoke(thisType, null);
 
             Console.WriteLine(Rta);
