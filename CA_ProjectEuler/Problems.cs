@@ -173,14 +173,9 @@ namespace CA_ProjectEuler
             return GetPrimeByPosition(10001);
         }
 
-
         public static int GetPrimeByPosition(int position)
         {
-
-            if(position == 1)
-            {
-                return 2;
-            }
+            if(position == 1) { return 2; }
             else
             {
                 int currentPosition = 1;
