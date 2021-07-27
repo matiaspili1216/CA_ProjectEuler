@@ -8,9 +8,7 @@ namespace CA_ProjectEuler
 {
     public class Problems
     {
-        #region Problems 1 - 9
-
-        #region Problem1
+        #region Problem 1
         /// <summary>
         /// If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
         /// Find the sum of all the multiples of 3 or 5 below 1000.
@@ -197,36 +195,34 @@ namespace CA_ProjectEuler
 
         #region Problem 8
 
-        /*
-         * The four adjacent digits in the 1000-digit number that have the greatest product are 9 × 9 × 8 × 9 = 5832.
-         * 
-         *      73167176531330624919225119674426574742355349194934
-         *      96983520312774506326239578318016984801869478851843
-         *      85861560789112949495459501737958331952853208805511
-         *      12540698747158523863050715693290963295227443043557
-         *      66896648950445244523161731856403098711121722383113
-         *      62229893423380308135336276614282806444486645238749
-         *      30358907296290491560440772390713810515859307960866
-         *      70172427121883998797908792274921901699720888093776
-         *      65727333001053367881220235421809751254540594752243
-         *      52584907711670556013604839586446706324415722155397
-         *      53697817977846174064955149290862569321978468622482
-         *      83972241375657056057490261407972968652414535100474
-         *      82166370484403199890008895243450658541227588666881
-         *      16427171479924442928230863465674813919123162824586
-         *      17866458359124566529476545682848912883142607690042
-         *      24219022671055626321111109370544217506941658960408
-         *      07198403850962455444362981230987879927244284909188
-         *      84580156166097919133875499200524063689912560717606
-         *      05886116467109405077541002256983155200055935729725
-         *      71636269561882670428252483600823257530420752963450
-         * Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?
-         */
-
-
+        /// <summary>
+        /// The four adjacent digits in the 1000-digit number that have the greatest product are 9 × 9 × 8 × 9 = 5832.
+        /// 
+        ///      73167176531330624919225119674426574742355349194934
+        ///      96983520312774506326239578318016984801869478851843
+        ///      85861560789112949495459501737958331952853208805511
+        ///      12540698747158523863050715693290963295227443043557
+        ///      66896648950445244523161731856403098711121722383113
+        ///      62229893423380308135336276614282806444486645238749
+        ///      30358907296290491560440772390713810515859307960866
+        ///      70172427121883998797908792274921901699720888093776
+        ///      65727333001053367881220235421809751254540594752243
+        ///      52584907711670556013604839586446706324415722155397
+        ///      53697817977846174064955149290862569321978468622482
+        ///      83972241375657056057490261407972968652414535100474
+        ///      82166370484403199890008895243450658541227588666881
+        ///      16427171479924442928230863465674813919123162824586
+        ///      17866458359124566529476545682848912883142607690042
+        ///      24219022671055626321111109370544217506941658960408
+        ///      07198403850962455444362981230987879927244284909188
+        ///      84580156166097919133875499200524063689912560717606
+        ///      05886116467109405077541002256983155200055935729725
+        ///      71636269561882670428252483600823257530420752963450
+        /// Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?        /// </summary>
+        /// <returns></returns>
         public static long Problem8()
         {
-            string Numero = "73167176531330624919225119674426574742355349194934" +
+            string number = "73167176531330624919225119674426574742355349194934" +
                             "96983520312774506326239578318016984801869478851843" +
                             "85861560789112949495459501737958331952853208805511" +
                             "12540698747158523863050715693290963295227443043557" +
@@ -247,98 +243,39 @@ namespace CA_ProjectEuler
                             "05886116467109405077541002256983155200055935729725" +
                             "71636269561882670428252483600823257530420752963450";
 
-            string[] Numeros = new string[] {   "73167176531330624919225119674426574742355349194934",
-                                                "96983520312774506326239578318016984801869478851843",
-                                                "85861560789112949495459501737958331952853208805511",
-                                                "12540698747158523863050715693290963295227443043557",
-                                                "66896648950445244523161731856403098711121722383113",
-                                                "62229893423380308135336276614282806444486645238749",
-                                                "30358907296290491560440772390713810515859307960866",
-                                                "70172427121883998797908792274921901699720888093776",
-                                                "65727333001053367881220235421809751254540594752243",
-                                                "52584907711670556013604839586446706324415722155397",
-                                                "53697817977846174064955149290862569321978468622482",
-                                                "83972241375657056057490261407972968652414535100474",
-                                                "82166370484403199890008895243450658541227588666881",
-                                                "16427171479924442928230863465674813919123162824586",
-                                                "17866458359124566529476545682848912883142607690042",
-                                                "24219022671055626321111109370544217506941658960408",
-                                                "07198403850962455444362981230987879927244284909188",
-                                                "84580156166097919133875499200524063689912560717606",
-                                                "05886116467109405077541002256983155200055935729725",
-                                                "71636269561882670428252483600823257530420752963450"};
+            List<string> listOfGroup = TakeBy(number, 13);
 
-            List<string> NumeroGrupo = AgruparNumero(Numero, 13);
-
-            long Max = MaxMult(NumeroGrupo);
-
-            return Max;
+            var listOfIntGroup = listOfGroup.Select(str => str.ToCharArray().Select(c => int.Parse(c.ToString())));
+            var multOfIntGroup = listOfIntGroup.Select(list => list.Mult());
+            return multOfIntGroup.Max();
         }
 
-        static List<string> AgruparNumero(string Numero, int TamañoGrupo)
+        static List<string> TakeBy(string number, int length)
         {
-            List<string> NumeroGrupo = new List<string>();
+            List<string> result = new List<string>();
 
-            for (int i = 0; i < Numero.Length - TamañoGrupo + 1; i++)
+            for (int i = 0; i < number.Length - length + 1; i++)
             {
-                NumeroGrupo.Add(Numero.Substring(i, TamañoGrupo));
+                result.Add(number.Substring(i, length));
             }
 
-            return NumeroGrupo;
-        }
-
-        public static long MaxMult(List<string> NumeroGrupo)
-        {
-            long Mult = 0;
-
-            List<long> TodosMult = new List<long>();
-
-
-            for (int i = 0; i < NumeroGrupo.Count; i++)
-            {
-                long Resultado = 1;
-                char[] Caracteres = NumeroGrupo.ElementAt(i).ToCharArray();
-
-                for (int iCar = 0; iCar < Caracteres.Length; iCar++)
-                {
-                    Resultado *= long.Parse(Caracteres[iCar].ToString());
-                }
-
-                Mult = Math.Max(Mult, Resultado);
-
-                TodosMult.Add(Resultado);
-            }
-
-            //return Mult;
-            return Max(TodosMult);
-        }
-
-
-        public static long Max(List<long> ListLong)
-        {
-            long Max = 0;
-            for (int i = 0; i < ListLong.Count; i++)
-            {
-                Max = Math.Max(ListLong.ElementAt(i), Max);
-            }
-
-            return Max;
+            return result;
         }
         #endregion
 
         #region Problem 9
 
-        /*
-         * A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
-         * 
-         *                                                         a2 + b2 = c2
-         * For example, 32 + 42 = 9 + 16 = 25 = 52.
-         * 
-         * 
-         * There exists exactly one Pythagorean triplet for which a + b + c = 1000.
-         * Find the product abc.
-         */
-
+        /// <summary>
+        /// A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+        /// 
+        ///                                                         a^2 + b^2 = c^2
+        /// For example, 3^2 + 4^2 = 9 + 16 = 25 = 5^2.
+        /// 
+        /// 
+        /// There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+        /// Find the product abc. 
+        /// </summary>
+        /// <returns></returns>
         public static int Problem9()
         {
             int ValorSuma = 1000;
@@ -349,21 +286,17 @@ namespace CA_ProjectEuler
                 {
                     for (int iA = 0; iA < iB; iA++)
                     {
-                        if (CumplePitagoras(iA, iB, iC) && iA + iB + iC == ValorSuma)
+                        if (IsPythagoreanTriplet(iA, iB, iC) && iA + iB + iC == ValorSuma)
                         {
                             return iA * iB * iC;
                         }
                     }
                 }
             }
-
-
             return 0;
         }
 
-        static bool CumplePitagoras(int a, int b, int c) => (a * a) + (b * b) == (c * c);
-
-        #endregion
+        static bool IsPythagoreanTriplet(int a, int b, int c) => (a * a) + (b * b) == (c * c);
 
         #endregion
 
@@ -636,9 +569,6 @@ namespace CA_ProjectEuler
             return Resultado;
         }
 
-
-
-
         public static long MaxMult(List<List<int>> NumeroGrupo)
         {
             long Mult = 0;
@@ -660,8 +590,7 @@ namespace CA_ProjectEuler
                 TodosMult.Add(Resultado);
             }
 
-            //return Mult;
-            return Max(TodosMult);
+            return TodosMult.Max();
         }
 
         #endregion

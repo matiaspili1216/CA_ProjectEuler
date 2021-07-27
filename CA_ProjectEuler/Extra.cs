@@ -32,7 +32,6 @@ namespace CA_ProjectEuler
             }
         }
 
-
         public static List<long> GetFactors(this long number, bool isIncluded = true)
         {
             List<long> fact = new List<long>();
@@ -97,5 +96,16 @@ namespace CA_ProjectEuler
             }
             return result;
         }    
+    
+        public static long Mult(this IEnumerable<int> list)
+        {
+            long result = 1;
+            foreach (var item in list)
+            {
+                result *= item;
+            }
+            return result;
+        }
+    
     }
 }
