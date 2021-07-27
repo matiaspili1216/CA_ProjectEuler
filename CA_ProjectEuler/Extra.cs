@@ -31,5 +31,71 @@ namespace CA_ProjectEuler
                 return (long)((Math.Pow(1 + (Sqrt5 / 2), step) - Math.Pow(1 - (Sqrt5 / 2), step)) / Sqrt5);
             }
         }
+
+
+        public static List<long> GetFactors(this long number, bool isIncluded = true)
+        {
+            List<long> fact = new List<long>();
+
+            long Max = isIncluded ? number : number - 1;
+
+            for (long i = 1; i <= Max; i++)
+            {
+                if (number % i == 0)
+                {
+                    fact.Add(i);
+                }
+            }
+
+            return fact;
+        }
+
+        public static List<long> GetPrimesFactors(this long number)
+        {
+            List<long> fact = new List<long>();
+
+            for (long i = 3; i <= number; i += 2)
+            {
+                if (number % i == 0)
+                {
+                    if (i.IsPrime())
+                    {
+                        fact.Add(i);
+                    }
+                }
+            }
+
+            return fact;
+        }
+
+        public static bool IsPrime(this BigInteger integer)
+        {
+            if (integer == 1) { return false; }
+            else if (integer == 2) { return true; }
+            else if (integer % 2 == 0) { return false; }
+            else if (integer < 9) { return true; }
+            else if (integer % 3 == 0) { return false; }
+            else
+            {
+                for (BigInteger i = 5; i < integer; i++)
+                {
+                    if (integer % i == 0) return false;
+                }
+            }
+
+            return true;
+        }
+        public static bool IsPrime(this int integer) => new BigInteger(integer).IsPrime();
+        public static bool IsPrime(this long integer) => new BigInteger(integer).IsPrime();
+   
+        public static BigInteger Sum(this IEnumerable<BigInteger> bigIntegers)
+        {
+            BigInteger result = 0;
+            foreach (var item in bigIntegers)
+            {
+                result += item;
+            }
+            return result;
+        }    
     }
 }

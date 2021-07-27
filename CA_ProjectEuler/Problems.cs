@@ -10,12 +10,14 @@ namespace CA_ProjectEuler
     {
         #region Problems 1 - 9
 
+        #region Problem1
         /// <summary>
         /// If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
         /// Find the sum of all the multiples of 3 or 5 below 1000.
         /// </summary>
         /// <returns></returns>
-        public static int Problem1() => Enumerable.Range(1, 1000).Where(n => n % 3 == 0 || n % 5 == 0).Sum();
+        public static int Problem1() => Enumerable.Range(1, 1000).Where(n => n % 3 == 0 || n % 5 == 0).Sum(); 
+        #endregion
 
         #region Problem 2
 
@@ -59,144 +61,81 @@ namespace CA_ProjectEuler
         /// What is the largest prime factor of the number 600851475143?
         /// </summary>
         /// <returns></returns>
-        public static long Problem3()
-        {
-            long NuemroCalculo = 600851475143;
-
-            return PrimesFactors(NuemroCalculo).Where(p => IsPrime(p)).Last();
-        }
-
-        static List<long> Factors(long Numero, bool IncluirNumero = true)
-        {
-            List<long> FactoresN = new List<long>();
-
-            long Max = IncluirNumero ? Numero : Numero - 1;
-
-            for (long i = 1; i <= Max; i++)
-            {
-                if (Numero % i == 0)
-                {
-                    FactoresN.Add(i);
-                }
-            }
-
-            return FactoresN;
-        }
-
-        static List<long> PrimesFactors(long numero)
-        {
-            List<long> FactoresN = new List<long>();
-
-            for (long i = 3; i <= numero; i += 2)
-            {
-                if (numero % i == 0)
-                {
-                    if (IsPrime(i))
-                    {
-                        FactoresN.Add(i);
-                    }
-                }
-            }
-
-            return FactoresN;
-        }
-
-        static bool IsPrime(long Numero) => IsPrime((BigInteger)Numero);
-
-        public static bool IsPrime(BigInteger Numero)
-        {
-            if (Numero == 1)
-            {
-                return false;
-            }
-            else if (Numero == 2)
-            {
-                return true;
-            }
-            else
-            {
-                for (BigInteger i = 2; i < Numero; i++)
-                {
-                    if (Numero % i == 0) return false;
-                }
-            }
-
-            return true;
-        }
-
-        static bool IsPrime(int Numero) => IsPrime((BigInteger)Numero);
-
+        public static long Problem3() => 600851475143.GetPrimesFactors().Last();
         #endregion
 
         #region Problem 4
 
-        /*
-         * A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
-         * 
-         * Find the largest palindrome made from the product of two 3-digit numbers.
-         */
-
+        /// <summary>
+        /// A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+        /// 
+        /// Find the largest palindrome made from the product of two 3-digit numbers.
+        /// </summary>
+        /// <returns></returns>
         public static int Problem4()
         {
-            int MaxPal = MaxPalindromo();
+            int MaxPal = MaxPalindromic();
 
             return MaxPal;
         }
 
-        private static int MaxPalindromo()
+        private static int MaxPalindromic()
         {
-            int PalActual = 0;
-            for (int i = 999; i >= 100; i--)
+            int result = 0;
+
+            for (int i = 100; i <= 999 ; i++)
             {
-                for (int ii = 999; ii >= 100; ii--)
+                for (int ii = i; ii <= 999; ii++)
                 {
                     int mult = i * ii;
 
-                    if (EsPalindromo(mult))
+                    if (IsPalindromicNumber(mult))
                     {
-                        PalActual = Math.Max(mult, PalActual);
+                        result = Math.Max(mult, result);
                     }
                 }
             }
 
-            return PalActual;
+            return result;
         }
 
-        public static bool EsPalindromo(int Numero)
+        public static bool IsPalindromicNumber(int number)
         {
-            string S_Numero = Numero.ToString();
-            int CantidadInicio = S_Numero.Length % 2 == 0 ? S_Numero.Length / 2 : (S_Numero.Length - 1) / 2;
+            string numberStr = number.ToString();
+            bool isEven = numberStr.Length % 2 != 0;
+            int middle = isEven ? numberStr.Length / 2 : (numberStr.Length - 1) / 2;
 
-            string Inicio = S_Numero.Substring(0, CantidadInicio);
+            string first = numberStr.Substring(0, middle);
+            string last = new string(numberStr.Reverse().ToArray()).Substring(0, middle);
 
-            string Fin = (new string(S_Numero.Reverse().ToArray())).Substring(0, CantidadInicio);
-
-            return Inicio.ToLower().Equals(Fin.ToLower());
+            return first.Equals(last);
         }
 
         #endregion
 
         #region Problem 5
-
-        public static int Problem5()
+        /// <summary>
+        /// 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
+        ///
+        /// What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+        /// </summary>
+        /// <returns></returns>
+        public static BigInteger Problem5()
         {
-            for (int i = 20; true; i++)
+            for (BigInteger i = 20; true; i += 3)
             {
-                if (EsDivPorTodos(i, 20))
+                if (EvenlyDivisibleBy(i, 20))
                 {
                     return i;
                 }
             }
         }
 
-        static Boolean EsDivPorTodos(int Numero, int MaxDiv)
+        static bool EvenlyDivisibleBy(BigInteger number, int maxDiv)
         {
-            for (int i = 1; i < MaxDiv; i++)
+            for (int i = 1; i <= maxDiv; i++)
             {
-                if (Numero % i != 0)
-                {
-                    return false;
-                }
+                if (number % i != 0) { return false; }
             }
 
             return true;
@@ -206,87 +145,58 @@ namespace CA_ProjectEuler
 
         #region Problem 6
 
-        /*
-         * The sum of the squares of the first ten natural numbers is,
-         * 
-         * 12 + 22 + ... + 102 = 385
-         * 
-         * The square of the sum of the first ten natural numbers is,
-         * 
-         * (1 + 2 + ... + 10)2 = 552 = 3025
-         * 
-         * Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is 3025 − 385 = 2640.
-         * Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
-         */
-
-        public static int Problem6()
-        {
-            int Numero = 100;
-
-            return (CuadradosSuma(Numero) - SumaCuadrados(Numero));
-        }
-
-        public static int SumaCuadrados(int Numero)
-        {
-            int Resultado = 0;
-
-            for (int i = 0; i <= Numero; i++)
-            {
-                Resultado += i * i;
-            }
-
-            return Resultado;
-        }
-
-        public static int CuadradosSuma(int Numero)
-        {
-            int Resultado = 0;
-
-            for (int i = 0; i <= Numero; i++)
-            {
-                Resultado += i;
-            }
-
-            return Resultado * Resultado;
-        }
-
+        /// <summary>
+        /// The sum of the squares of the first ten natural numbers is,
+        /// 
+        /// 1^2 + 2^2 + ... + 10^2 = 385
+        /// 
+        /// The square of the sum of the first ten natural numbers is,
+        /// 
+        /// (1 + 2 + ... + 10)^2 = 552 = 3025
+        /// 
+        /// Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is 3025 − 385 = 2640.
+        /// Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+        /// /// </summary>
+        /// <returns></returns>
+        public static double Problem6() => Math.Pow(Enumerable.Range(1, 100).Sum(), 2) - Enumerable.Range(1, 100).Select(x => Math.Pow(x, 2)).Sum();
         #endregion
 
         #region Problem 7
 
-        /*
-         * By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
-         * What is the 10001st prime number?
-         */
-
+        /// <summary>
+        /// By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
+        /// What is the 10001st prime number?
+        /// </summary>
+        /// <returns></returns>
         public static int Problem7()
         {
-            return Primos(10001);
+            return GetPrimeByPosition(10001);
         }
 
 
-        public static int Primos(int LengthArray)
+        public static int GetPrimeByPosition(int position)
         {
-            int PrimoActual = 2;
-            int PosicionPrimo = 1;
 
-            for (int iEx = 3; true; iEx++)
+            if(position == 1)
             {
-                if (IsPrime(iEx))
-                {
-                    PrimoActual = iEx;
-                    PosicionPrimo++;
-                }
-
-                if (PosicionPrimo == LengthArray)
-                {
-                    break;
-                }
-
-                iEx++;
+                return 2;
             }
+            else
+            {
+                int currentPosition = 1;
 
-            return PrimoActual;
+                for (int num = 3; true; num += 2)
+                {
+                    if (num.IsPrime())
+                    {
+                        currentPosition++;
+                        if (currentPosition == position)
+                        {
+                            return num;
+                        }
+                    }
+                }
+            }
         }
         #endregion
 
@@ -483,7 +393,7 @@ namespace CA_ProjectEuler
         }
 
 
-        static List<long> ObtenerPrimos(long Max, Boolean UsarNegativos = false)
+        static List<long> ObtenerPrimos(long Max, bool UsarNegativos = false)
         {
             /*http://es.wikipedia.org/wiki/Criba_de_Erat%C3%B3stenes*/
 
@@ -1432,8 +1342,8 @@ namespace CA_ProjectEuler
             for (long n = 1; n < Maximo; n++)
             {
                 long a = n;
-                long b = SumaValores(Factors(a, false)); ;
-                var Sumb = SumaValores(Factors(b, false));
+                long b = SumaValores(a.GetFactors(false)); ;
+                var Sumb = SumaValores(b.GetFactors(false));
 
                 if (b > a && Sumb == a)
                 {
@@ -1456,7 +1366,7 @@ namespace CA_ProjectEuler
                 BigInteger q = (3 * BigInteger.Pow(2, n)) - 1;
                 BigInteger r = (9 * BigInteger.Pow(2, (2 * n) - 1)) - 1;
 
-                if (IsPrime(p) && IsPrime(q) && IsPrime(r))
+                if (p.IsPrime() && q.IsPrime() && r.IsPrime())
                 {
                     BigInteger NumTmp = BigInteger.Pow(2, n);
                     BigInteger NumA1 = NumTmp * p * q;
@@ -1550,7 +1460,7 @@ namespace CA_ProjectEuler
 
         }
 
-        static Boolean SePuedeFormarPorAbundantes(List<long> NumerosAbundanteslist, int Numero)
+        static bool SePuedeFormarPorAbundantes(List<long> NumerosAbundanteslist, int Numero)
         {
             for (int ixAbund = 0; ixAbund < NumerosAbundanteslist.Count; ixAbund++)
             {
@@ -1589,7 +1499,7 @@ namespace CA_ProjectEuler
 
         static bool EsAbundante(long Numero)
         {
-            long Suma = SumaValores(Factors(Numero, false));
+            long Suma = SumaValores(Numero.GetFactors(false));
 
             return Suma > Numero;
         }
@@ -2498,7 +2408,7 @@ namespace CA_ProjectEuler
             return Res;
         }
 
-        static Boolean SonPrimos(List<long> String_Primo, List<long> Primos)
+        static bool SonPrimos(List<long> String_Primo, List<long> Primos)
         {
             for (int i = 0; i < String_Primo.Count; i++)
             {
