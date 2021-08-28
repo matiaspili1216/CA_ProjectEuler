@@ -14,7 +14,11 @@ namespace CA_ProjectEuler
             MethodInfo theMethod = thisType.GetMethod($"Problem{problem}");
             var Rta = theMethod.Invoke(thisType, null);
 
-            Console.WriteLine(Rta);
+            string ans = GetAnswer(problem);
+            bool isCorrect = Rta.ToString().Equals(ans);
+
+            Console.WriteLine($"{Rta} [{(isCorrect ? "CORRECT" : "INCORRECT")}]");
+            if(!isCorrect) { Console.WriteLine($"{ans} [CORRECT]"); }
 
             Console.ReadLine();
         }
@@ -46,6 +50,23 @@ namespace CA_ProjectEuler
             } while (true);
         }
 
-
+        private static string GetAnswer(int problem)
+        {
+            switch (problem)
+            {
+                case 1: return "233168";
+                case 2: return "4613732";
+                case 3: return "6857";
+                case 4: return "906609";
+                case 5: return "232792560";
+                case 6: return "25164150";
+                case 7: return "104743";
+                case 8: return "23514624000";
+                case 9: return "31875000";
+                case 10: return "142913828922";
+                case 11: return "70600674";
+                default: return "";
+            }
+        }
     }
 }

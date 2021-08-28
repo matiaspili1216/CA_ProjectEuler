@@ -14,7 +14,7 @@ namespace CA_ProjectEuler
         /// Find the sum of all the multiples of 3 or 5 below 1000.
         /// </summary>
         /// <returns></returns>
-        public static int Problem1() => Enumerable.Range(1, 1000).Where(n => n % 3 == 0 || n % 5 == 0).Sum(); 
+        public static int Problem1() => Enumerable.Range(1, 1000).Where(n => n % 3 == 0 || n % 5 == 0).Sum();
         #endregion
 
         #region Problem 2
@@ -81,7 +81,7 @@ namespace CA_ProjectEuler
         {
             int result = 0;
 
-            for (int i = 100; i <= 999 ; i++)
+            for (int i = 100; i <= 999; i++)
             {
                 for (int ii = i; ii <= 999; ii++)
                 {
@@ -173,7 +173,7 @@ namespace CA_ProjectEuler
 
         public static int GetPrimeByPosition(int position)
         {
-            if(position == 1) { return 2; }
+            if (position == 1) { return 2; }
             else
             {
                 int currentPosition = 1;
@@ -278,15 +278,13 @@ namespace CA_ProjectEuler
         /// <returns></returns>
         public static int Problem9()
         {
-            int ValorSuma = 1000;
-
             for (int iC = 0; iC < 1000; iC++)
             {
                 for (int iB = 0; iB < iC; iB++)
                 {
                     for (int iA = 0; iA < iB; iA++)
                     {
-                        if (IsPythagoreanTriplet(iA, iB, iC) && iA + iB + iC == ValorSuma)
+                        if (IsPythagoreanTriplet(iA, iB, iC) && iA + iB + iC == 1000)
                         {
                             return iA * iB * iC;
                         }
@@ -304,159 +302,49 @@ namespace CA_ProjectEuler
 
         #region Problem 10
 
-        /*
-         * The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
-         * 
-         * Find the sum of all the primes below two million.
-         */
-
-        public static long Problem10()
-        {
-            long CantMax = 2000000;
-
-
-
-            return SumaValores(ObtenerPrimos(CantMax));
-
-        }
-
-
-        static List<long> ObtenerPrimos(long Max, bool UsarNegativos = false)
-        {
-            /*http://es.wikipedia.org/wiki/Criba_de_Erat%C3%B3stenes*/
-
-            List<long> Numeros = new List<long>
-            {
-                2
-            };
-
-            for (int i = 3; i <= Max; i += 2)
-            {
-                Numeros.Add(i);
-            }
-
-            for (int i = 1; ; i++)
-            {
-                var NuevoPrimo = Numeros.ElementAt(i);
-                //  NumPrimos.Add(NuevoPrimo);
-                Numeros = Numeros.Where(p => p == NuevoPrimo || p % NuevoPrimo != 0).ToList();
-
-                if (Math.Pow(NuevoPrimo, 2) > Max)
-                    break;
-            }
-
-            if (UsarNegativos)
-            {
-                List<long> NumerosNeg = new List<long>();
-                for (int i = 0; i < Numeros.Count; i++)
-                {
-                    NumerosNeg.Add(-(Numeros.ElementAt(i)));
-                }
-                Numeros.AddRange(NumerosNeg);
-            }
-
-            return Numeros;
-        }
-
-        public static long SumaValores(List<long> Numeros)
-        {
-            long SumaV = 0;
-
-            for (int i = 0; i < Numeros.Count; i++)
-            {
-                SumaV += Numeros.ElementAt(i);
-            }
-
-            return SumaV;
-        }
-
-
-        static BigInteger SumaValores(List<BigInteger> Numeros)
-        {
-            BigInteger SumaV = 0;
-
-            for (int i = 0; i < Numeros.Count; i++)
-            {
-                SumaV += Numeros.ElementAt(i);
-            }
-
-            return SumaV;
-        }
-
-        public static long SumaValores(List<char> Numeros)
-        {
-            long SumaV = 0;
-
-            for (int i = 0; i < Numeros.Count; i++)
-            {
-                SumaV += int.Parse(Numeros.ElementAt(i).ToString());
-            }
-
-            return SumaV;
-        }
-
-        public static long SumaFactorialValores(List<char> Numeros, List<int> Fact0a9)
-        {
-            long SumaV = 0;
-
-            // List<int> Fact_0a9 = ListaFact_0a9();
-
-            for (int i = 0; i < Numeros.Count; i++)
-            {
-                SumaV += Fact0a9.ElementAt(int.Parse(Numeros.ElementAt(i).ToString()));
-            }
-
-            return SumaV;
-        }
-
-        static List<int> ListaFact_0a9()
-        {
-            List<int> Fac = new List<int>();
-
-            for (int i = 0; i < 10; i++)
-            {
-                Fac.Add(int.Parse(Factorial(i).ToString()));
-            }
-
-            return Fac;
-        }
+        /// <summary>
+        /// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+        /// 
+        /// Find the sum of all the primes below two million.
+        /// </summary>
+        /// <returns></returns>
+        public static long Problem10() => Extra.GetPrimes(2000000).Sum();
 
         #endregion
 
         #region Problem 11
 
-        /*
-         * In the 20×20 grid below, four numbers along a diagonal line have been marked in red.
-         * 
-         * 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
-         * 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
-         * 81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
-         * 52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
-         * 22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80
-         * 24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50
-         * 32 98 81 28 64 23 67 10 26 38 40 67 59 54 70 66 18 38 64 70
-         * 67 26 20 68 02 62 12 20 95 63 94 39 63 08 40 91 66 49 94 21
-         * 24 55 58 05 66 73 99 26 97 17 78 78 96 83 14 88 34 89 63 72
-         * 21 36 23 09 75 00 76 44 20 45 35 14 00 61 33 97 34 31 33 95
-         * 78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92
-         * 16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57
-         * 86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58
-         * 19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40
-         * 04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66
-         * 88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69
-         * 04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36
-         * 20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
-         * 20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
-         * 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
-         * 
-         * The product of these numbers is 26 × 63 × 78 × 14 = 1788696.
-         * What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
-         */
-
-
+        /// <summary>
+        /// In the 20×20 grid below, four numbers along a diagonal line have been marked in red.
+        /// 
+        /// 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
+        /// 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
+        /// 81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65
+        /// 52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91
+        /// 22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80
+        /// 24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50
+        /// 32 98 81 28 64 23 67 10 26 38 40 67 59 54 70 66 18 38 64 70 -> 26 (col 9) is marked in red
+        /// 67 26 20 68 02 62 12 20 95 63 94 39 63 08 40 91 66 49 94 21 -> 63 (col 10) is marked in red
+        /// 24 55 58 05 66 73 99 26 97 17 78 78 96 83 14 88 34 89 63 72 -> 78 (col 11) is marked in red
+        /// 21 36 23 09 75 00 76 44 20 45 35 14 00 61 33 97 34 31 33 95 -> 14 (col 12) is marked in red
+        /// 78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92
+        /// 16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57
+        /// 86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58
+        /// 19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40
+        /// 04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66
+        /// 88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69
+        /// 04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36
+        /// 20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16
+        /// 20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54
+        /// 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
+        /// 
+        /// The product of these numbers is 26 × 63 × 78 × 14 = 1788696.
+        /// What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
+        /// </summary>
+        /// <returns></returns>
         public static long Problem11()
         {
-            List<List<int>> Numeros = new List<List<int>>() {
+            List<List<int>> grid = new List<List<int>>() {
                                     new List<int>() {08,02,22,97,38,15,00,40,00,75,04,05,07,78,52,12,50,77,91,08},
                                     new List<int>() {49,49,99,40,17,81,18,57,60,87,17,40,98,43,69,48,04,56,62,00},
                                     new List<int>() {81,49,31,73,55,79,14,29,93,71,40,67,53,88,30,03,49,13,36,65},
@@ -476,121 +364,52 @@ namespace CA_ProjectEuler
                                     new List<int>() {04,42,16,73,38,25,39,11,24,94,72,18,08,46,29,32,40,62,76,36},
                                     new List<int>() {20,69,36,41,72,30,23,88,34,62,99,69,82,67,59,85,74,04,36,16},
                                     new List<int>() {20,73,35,29,78,31,90,01,74,31,49,71,48,86,81,16,23,57,05,54},
-                                    new List<int>() {01,70,54,71,83,51,54,69,16,92,33,48,61,43,52,01,89,19,67,48}};
+                                    new List<int>() {01,70,54,71,83,51,54,69,16,92,33,48,61,43,52,01,89,19,67,48}
+            };
 
-            List<List<int>> NumerosAgrup = AgruparNumero_TodasDir(Numeros, 4);
+            
+            List<List<int>> all = new List<List<int>>();
 
+            List<(int row, int column, int value)> values = GetRowColumnValue(grid);
 
+            all.AddRange(TakeVertical(values.ToList(), 4));
+            all.AddRange(TakeHorizontal(values.ToList(), 4));
 
+            var i = 0;
+            all.AddRange(TakeVertical(GetRowColumnValue(grid.Select(r => { var res = r.Move(i); i++; return res; }).ToList()), 4));
+            all.AddRange(TakeVertical(GetRowColumnValue(grid.Select(r => { var res = r.Move(i); i--; return res; }).ToList()), 4));
 
-
-            return MaxMult(NumerosAgrup);
+            return all.Select(group => group.Mult()).Max();
         }
 
-        static List<List<int>> AgruparNumero_TodasDir(List<List<int>> ArrNumeros, int TamañoGrupo)
+        private static List<(int row, int column, int value)> GetRowColumnValue(List<List<int>> Numeros)
         {
-            int TamañoArray = ArrNumeros.Count;
+            List<(int row, int column, int value)> values = new List<(int row, int column, int value)>();
 
-            List<List<int>> NumeroGrupo = new List<List<int>>();
-
-            for (int iNumeros = 0; iNumeros < ArrNumeros.Count; iNumeros++)
+            int iRow = 0;
+            foreach (var rowValues in Numeros)
             {
-                List<int> Numeros = ArrNumeros[iNumeros];
-                for (int i = 0; i < Numeros.Count - TamañoGrupo + 1; i++)
+                int iColumn = 0;
+                foreach (var columnValue in rowValues)
                 {
-                    NumeroGrupo.Add(Numeros.Sublist(i, TamañoGrupo));
+                    (int row, int column, int value) result = (row: iRow, column: iColumn, value: columnValue);
+                    iColumn++;
+                    values.Add(result);
                 }
+                iRow++;
             }
 
-            List<List<int>> ArrNumerosInv = InvertirLista(ArrNumeros);
-
-            for (int iNumeros = 0; iNumeros < ArrNumerosInv.Count; iNumeros++)
-            {
-                List<int> Numeros = ArrNumerosInv[iNumeros];
-                for (int i = 0; i < Numeros.Count - TamañoGrupo + 1; i++)
-                {
-                    NumeroGrupo.Add(Numeros.Sublist(i, TamañoGrupo));
-                }
-            }
-
-            for (int iNumeros = 0; iNumeros < TamañoArray - TamañoGrupo + 1; iNumeros++)
-            {
-                for (int i = 0; i < TamañoArray - TamañoGrupo + 1; i++)
-                {
-                    List<int> NuevosNumeros = new List<int>
-                    {
-                        ArrNumeros[iNumeros].ElementAt(i),
-                        ArrNumeros[iNumeros + 1].ElementAt(i + 1),
-                        ArrNumeros[iNumeros + 2].ElementAt(i + 2),
-                        ArrNumeros[iNumeros + 3].ElementAt(i + 3)
-                    };
-
-                    NumeroGrupo.Add(NuevosNumeros);
-                }
-            }
-
-            for (int iNumeros = 0; iNumeros < TamañoArray - TamañoGrupo + 1; iNumeros++)
-            {
-                for (int i = TamañoArray - 1; i >= (0 + TamañoGrupo); i--)
-                {
-                    List<int> NuevosNumeros = new List<int>
-                    {
-                        ArrNumeros[iNumeros].ElementAt(i),
-                        ArrNumeros[iNumeros + 1].ElementAt(i - 1),
-                        ArrNumeros[iNumeros + 2].ElementAt(i - 2),
-                        ArrNumeros[iNumeros + 3].ElementAt(i - 3)
-                    };
-
-                    NumeroGrupo.Add(NuevosNumeros);
-                }
-            }
-
-
-            return NumeroGrupo;
+            return values;
         }
 
-        static List<List<int>> InvertirLista(List<List<int>> Numeros)
+        static List<List<int>> TakeVertical(List<(int row, int column, int value)> values, int groupLen)
         {
-            List<List<int>> Resultado = new List<List<int>>();
-
-            for (int i = 0; i < Numeros.Count; i++)
-            {
-                List<int> SubResultado = new List<int>();
-
-                for (int j = 0; j < Numeros.ElementAt(i).Count; j++)
-                {
-                    SubResultado.Add(Numeros.ElementAt(j).ElementAt(i));
-                }
-
-                Resultado.Add(SubResultado);
-
-            }
-
-            return Resultado;
+            return values.GroupBy(x => x.column).Select(gp => gp.Select(d => d)).SelectMany(valuesInColumn => valuesInColumn.Select(a => a.value).ToList().TakeBy(groupLen)).ToList();
         }
 
-        public static long MaxMult(List<List<int>> NumeroGrupo)
+        static List<List<int>> TakeHorizontal(List<(int row, int column, int value)> values, int groupLen)
         {
-            long Mult = 0;
-
-            List<long> TodosMult = new List<long>();
-
-            for (int ii = 0; ii < NumeroGrupo.Count; ii++)
-            {
-
-                long Resultado = 1;
-
-                for (int iCar = 0; iCar < NumeroGrupo.ElementAt(ii).Count; iCar++)
-                {
-                    Resultado *= NumeroGrupo.ElementAt(ii).ElementAt(iCar);
-                }
-
-                Mult = Math.Max(Mult, Resultado);
-
-                TodosMult.Add(Resultado);
-            }
-
-            return TodosMult.Max();
+            return values.GroupBy(x => x.row).Select(gp => gp.Select(d => d)).SelectMany(valuesInColumn => valuesInColumn.Select(a => a.value).ToList().TakeBy(groupLen)).ToList();
         }
 
         #endregion
@@ -1047,6 +866,20 @@ namespace CA_ProjectEuler
             return SumaV;
         }
 
+        public static long SumaFactorialValores(List<char> Numeros, List<int> Fact0a9)
+        {
+            long SumaV = 0;
+
+            // List<int> Fact_0a9 = ListaFact_0a9();
+
+            for (int i = 0; i < Numeros.Count; i++)
+            {
+                SumaV += Fact0a9.ElementAt(int.Parse(Numeros.ElementAt(i).ToString()));
+            }
+
+            return SumaV;
+        }
+
         #endregion
 
         #region Problem 17
@@ -1259,6 +1092,18 @@ namespace CA_ProjectEuler
 
         public static BigInteger Problem21() => SumaValores(CalAmigosFB(10000));
 
+        static BigInteger SumaValores(List<BigInteger> Numeros)
+        {
+            BigInteger SumaV = 0;
+
+            for (int i = 0; i < Numeros.Count; i++)
+            {
+                SumaV += Numeros.ElementAt(i);
+            }
+
+            return SumaV;
+        }
+
         private static List<BigInteger> CalAmigosFB(int Maximo)
         {
             List<BigInteger> NumerosAmigos = new List<BigInteger>();
@@ -1266,8 +1111,8 @@ namespace CA_ProjectEuler
             for (long n = 1; n < Maximo; n++)
             {
                 long a = n;
-                long b = SumaValores(a.GetFactors(false)); ;
-                var Sumb = SumaValores(b.GetFactors(false));
+                long b = a.GetFactors(false).Sum(); ;
+                var Sumb = b.GetFactors(false).Sum();
 
                 if (b > a && Sumb == a)
                 {
@@ -1379,9 +1224,7 @@ namespace CA_ProjectEuler
                 }
             }
 
-            long Resultado = SumaValores(Lista);
-            return Resultado;
-
+            return Lista.Sum();
         }
 
         static bool SePuedeFormarPorAbundantes(List<long> NumerosAbundanteslist, int Numero)
@@ -1421,12 +1264,7 @@ namespace CA_ProjectEuler
         }
 
 
-        static bool EsAbundante(long Numero)
-        {
-            long Suma = SumaValores(Numero.GetFactors(false));
-
-            return Suma > Numero;
-        }
+        static bool EsAbundante(long Numero) => Numero.GetFactors(false).Sum() > Numero;
 
         #endregion
 
@@ -1667,8 +1505,8 @@ namespace CA_ProjectEuler
             outA = 0;
             outB = 0;
 
-            List<long> PrimosTodos = ObtenerPrimos(1000000);
-            List<long> B_Primos = ObtenerPrimos(1000, true);
+            List<long> PrimosTodos = Extra.GetPrimes(1000000);
+            List<long> B_Primos = Extra.GetPrimes(1000, true);
 
             for (int A = -999; A <= 1000; A += 2)
             {
@@ -1866,11 +1704,23 @@ namespace CA_ProjectEuler
         {
             var S_Numero = Numero.ToString();
 
-            var List_S_Numero = S_Numero.ToCharArray().ToList();
+            List<char> List_S_Numero = S_Numero.ToCharArray().ToList();
 
             BigInteger Res = SumaValores(List_S_Numero);
 
             return Res;
+        }
+
+        public static long SumaValores(List<char> Numeros)
+        {
+            long SumaV = 0;
+
+            for (int i = 0; i < Numeros.Count; i++)
+            {
+                SumaV += int.Parse(Numeros.ElementAt(i).ToString());
+            }
+
+            return SumaV;
         }
 
         #endregion
@@ -2267,6 +2117,19 @@ namespace CA_ProjectEuler
         }
 
 
+        static List<int> ListaFact_0a9()
+        {
+            List<int> Fac = new List<int>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Fac.Add(int.Parse(Factorial(i).ToString()));
+            }
+
+            return Fac;
+        }
+
+
 
         #endregion
 
@@ -2296,7 +2159,7 @@ namespace CA_ProjectEuler
             List<long> R = new List<long>();
             List<long> NO_R = new List<long>();
 
-            List<long> PrimosBajo = ObtenerPrimos(Millon, false);
+            List<long> PrimosBajo = Extra.GetPrimes(Millon, false);
 
             for (int i = 0; i < PrimosBajo.Count; i++)
             {

@@ -2,24 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
 
 namespace CA_ProjectEuler
 {
     public static class Extra
     {
-        public static List<int> Sublist(this List<int> Lista, int startIndex, int length)
-        {
-            List<int> resultado = new List<int>();
-
-            for (int i = startIndex; i < (startIndex + length); i++)
-            {
-                resultado.Add(Lista.ElementAt(i));
-            }
-
-            return resultado;
-        }
-
         public static string RemoveChars(this string value, params char[] items) => new string(value.Where(c => !items.Contains(c)).ToArray());
 
         public static long GetFibonacciValue_ByStep(int step)
@@ -67,6 +54,35 @@ namespace CA_ProjectEuler
             return fact;
         }
 
+        public static List<long> GetPrimes(int max, bool whitNegatives = false) => GetPrimes((long) max, whitNegatives);
+
+        public static List<long> GetPrimes(long max, bool whitNegatives = false)
+        {
+            /*http://es.wikipedia.org/wiki/Criba_de_Erat%C3%B3stenes */
+
+            List<long> result = new List<long> { 2 };
+
+            for (int i = 3; i <= max; i += 2)
+            {
+                result.Add(i);
+            }
+
+            for (int i = 1; ; i++)
+            {
+                var newPrime = result.ElementAt(i);
+                result = result.Where(p => p == newPrime || p % newPrime != 0).ToList();
+
+                if (Math.Pow(newPrime, 2) > max) { break; }
+            }
+
+            if (whitNegatives)
+            {   
+                result.AddRange(result.Select(x => -x));
+            }
+
+            return result;
+        }
+
         public static bool IsPrime(this BigInteger integer)
         {
             if (integer == 1) { return false; }
@@ -107,5 +123,34 @@ namespace CA_ProjectEuler
             return result;
         }
     
+        public static List<T> Move<T>(this List<T> source, int steps)
+        {
+            if (steps == 0) { return source; }
+            else if(steps > 0)
+            {
+                var result = source.Skip(steps).ToList();
+                result.AddRange(source.Take(steps).ToList());
+                return result;
+            }
+            else
+            {
+                steps = Math.Abs(steps);
+                var result = source.TakeLast(steps).ToList();
+                result.AddRange(source.SkipLast(steps).ToList());
+                return result;
+            }
+        }
+
+        public static List<List<T>> TakeBy<T>(this List<T> values, int length)
+        {
+            List<List<T>> result = new List<List<T>>();
+
+            for (int i = 0; i < values.Count - length + 1; i++)
+            {
+                result.Add(values.Skip(i).Take(length).ToList());
+            }
+
+            return result;
+        }
     }
 }
