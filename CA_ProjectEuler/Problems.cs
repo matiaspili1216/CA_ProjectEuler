@@ -14,7 +14,7 @@ namespace CA_ProjectEuler
         /// Find the sum of all the multiples of 3 or 5 below 1000.
         /// </summary>
         /// <returns></returns>
-        public static int Problem1() => Enumerable.Range(1, 1000).Where(n => n % 3 == 0 || n % 5 == 0).Sum();
+        public static int Problem1() => Enumerable.Range(1, 999).Where(n => n % 3 == 0 || n % 5 == 0).Sum();
         #endregion
 
         #region Problem 2
