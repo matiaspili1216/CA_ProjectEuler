@@ -26,27 +26,22 @@ namespace CA_ProjectEuler
         /// By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
         /// </summary>
         /// <returns></returns>
-        public static long Problem2() => GetFibonacciValue_UntilMaxResult(4000000).Where(p => p % 2 == 0).Sum();
-
-        static List<long> GetFibonacciValue_UntilMaxResult(long maxResult)
+        public static long Problem2()
         {
-            List<long> retFibo = new List<long>();
+            long result = 0;
 
-            for (int i = 0; true; i++)
+            long a = 1, b = 1;
+            long c = a + b;
+
+            do
             {
-                long fTMP = Extra.GetFibonacciValue_ByStep(i);
+                if (c % 2 == 0) result += c;
+                a = b;
+                b = c;
+                c = a + b;
+            } while (c <= 4000000);
 
-                if (fTMP < maxResult)
-                {
-                    retFibo.Add(fTMP);
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            return retFibo;
+            return result;
         }
 
         #endregion
